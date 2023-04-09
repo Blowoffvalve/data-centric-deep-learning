@@ -92,6 +92,15 @@ class DigitClassifierFlow(FlowSpec):
 
     scores = []        # populate with scores from each hparams
     best_index = None  # replace with best index
+    min_loss = 10000000 # Arbitrary large value of min_loss
+
+    for index, inp in enumerate(inputs):
+      callback = inp.callback
+      scores.append(callback.best_model_score)
+      if callback.best_model_score < min_loss:
+        min_loss = callback.best_model_score
+        best_index = index
+
     
     # ================================
     # FILL ME OUT
